@@ -96,6 +96,7 @@ document.body.append(galleryList)
 
 
 const backdrop = document.querySelector(".lightbox");
+const modal = document.querySelector(".lightbox__overlay")
 
 
 galleryList.addEventListener("click", (event) => {
@@ -107,6 +108,14 @@ galleryList.addEventListener("click", (event) => {
         closeBtn.addEventListener("click", (event) => {
             backdrop.classList.remove("is-open")
         });
+        window.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                backdrop.classList.remove("is-open");
+            }
+        });
+        modal.addEventListener("click", (event) => {
+            backdrop.classList.remove("is-open");
+        })
         const modalImg = document.querySelector(".lightbox__image");
         const modalSource = event.target.closest("li").dataset.info;
         const modalAlt = event.target.closest("li").dataset.alt;

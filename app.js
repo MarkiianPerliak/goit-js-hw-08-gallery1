@@ -65,6 +65,11 @@ const galleryItems = [
 ];
 const galleryList = document.createElement('ul')
 
+galleryList.style.listStyle = "none";
+galleryList.style.display = "flex";
+galleryList.style.flexWrap = "wrap";
+galleryList.style.gap = "50px";
+galleryList.style.justifyContent = "center";
 
 const finalGallery = galleryItems.map(galleryItem => {
     const elementOfLi = `
@@ -89,31 +94,23 @@ galleryList.innerHTML = galleryString
 
 document.body.append(galleryList)
 
-const backdropModal = `
-    <div class="lightbox__overlay is-open">
-        <div class="modal">
-            <button class="lightbox__button"></button>
-            <img class="lightbox__image" src="" alt="">
-        </div>
-    </div>
-`;
 
-document.body.append(backdropModal)
+const backdrop = document.querySelector(".lightbox");
 
-const backdrop = document.querySelector(".lightbox__overlay");
-const closeBtn = document.querySelector(".lightbox__button");
 
 galleryList.addEventListener("click", (event) => {
+    event.preventDefault()
     if (event.target.nodeName === "IMG") {
         backdrop.classList.add("is-open")
-        const modalSource = event.target.dataset.info;
-        const modalDesc = event.target.dataset.alt;
-        const modalAlt = event.target.dataset.alt;
+        const closeBtn = document.querySelector(".lightbox__button");
+        console.log(closeBtn)
+        closeBtn.addEventListener("click", (event) => {
+            backdrop.classList.remove("is-open")
+        });
         const modalImg = document.querySelector(".lightbox__image");
+        const modalSource = event.target.closest("li").dataset.info;
+        const modalAlt = event.target.closest("li").dataset.alt;
         modalImg.src = modalSource;
-        modalAlt.alt = modalDesc;
+        modalImg.alt = modalAlt;
     }
-});
-closeBtn.addEventListener("click", (event) => {
-    backdrop.classList.remove("is-open")
 });
